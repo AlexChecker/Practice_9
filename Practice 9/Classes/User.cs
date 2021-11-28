@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Practice_9.Classes
 {
@@ -12,23 +13,17 @@ namespace Practice_9.Classes
         public string password;
         public string email;
         public string phone;
-        public User(string name, DateTime birthday,Role role,string login,string pass)
+        [JsonConstructor]
+        public User(string name, DateTime birthday,Role role,string login,string pass,string email,string phone)
         {
             Name = name;
             Birthday = birthday;
             this.role = role;
             this.login = login;
             password = pass;
-        }
-        public User(string login,string pass,string email,string phone)
-        {
-            
-            this.role = Role.CLIENT;
-            this.login = login;
-            password = pass;
             this.email = email;
             this.phone = phone;
-        }   
+        }  
 
 
     }

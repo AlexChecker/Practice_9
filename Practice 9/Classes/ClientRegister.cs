@@ -9,7 +9,7 @@ namespace Practice_9.Classes
         private static Point origin = new (Program.WIDTH/2,Program.HEIGHT/2);
         private static Window _window= Program.win;
         private static int element_choosen = 0;
-        private static string[] strs = new string[4] {"","","",""};
+        private static string[] strs = new string[5] {"","","","",""};
         private static List<string> strings = new List<string>();
         
         public static void Draw()
@@ -19,21 +19,22 @@ namespace Practice_9.Classes
             for (int i = 0; i < strings.Count; i++)
             {
                 if (i==element_choosen)
-                    _window.drawString(new Point(origin.x-10,origin.y+i),">> "+strings[i]);
+                    _window.drawString(new Point(origin.x-13,origin.y+i),">> "+strings[i]);
                 else
                     _window.drawString(new Point(origin.x-10,origin.y+i),strings[i]);
             }
-            _window.drawString(new Point(origin.x-10,origin.y+4), $"When all fields are filled correctly, press [ENTER]");
+            _window.drawString(new Point(origin.x-10,origin.y+5), $"When all fields are filled correctly, press [ENTER]");
             _window.drawBuffer();
         }
 
         public static void controls()
         {
             
-            strings.Add($"Login: {strs[0]}");
-            strings.Add($"Password: {strs[1]}");
-            strings.Add($"Email: {strs[2]}");
-            strings.Add($"Phone: {strs[3]}");
+            strings.Add($"Name: {strs[0]}");
+            strings.Add($"Login: {strs[1]}");
+            strings.Add($"Password: {strs[2]}");
+            strings.Add($"Email: {strs[3]}");
+            strings.Add($"Phone: {strs[4]}");
             bool end = false;
             while (!end)
             {
@@ -43,11 +44,11 @@ namespace Practice_9.Classes
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        if (element_choosen == 0) element_choosen = 3;
+                        if (element_choosen == 0) element_choosen = 4;
                         else element_choosen--;
                         break;
                     case ConsoleKey.DownArrow:
-                        if (element_choosen == 3) element_choosen = 0;
+                        if (element_choosen == 4) element_choosen = 0;
                         else element_choosen++;
                         break;
                     case ConsoleKey.Backspace:
@@ -58,7 +59,7 @@ namespace Practice_9.Classes
 
                         break;
                     case ConsoleKey.Enter:
-                        Program.users.Add(new User(strs[0], strs[1], strs[2], strs[3]));
+                        Program.users.Add(new User(strs[0],DateTime.Today,Role.CLIENT,strs[1],strs[2],strs[3],strs[4]));
                         end = true;
                         break;
                     default:
@@ -77,10 +78,11 @@ namespace Practice_9.Classes
                         break;
                 }
                 strings.Clear();
-                strings.Add($"Login: {strs[0]}");
-                strings.Add($"Password: {strs[1]}");
-                strings.Add($"Email: {strs[2]}");
-                strings.Add($"Phone: {strs[3]}");
+                strings.Add($"Name: {strs[0]}");
+                strings.Add($"Login: {strs[1]}");
+                strings.Add($"Password: {strs[2]}");
+                strings.Add($"Email: {strs[3]}");
+                strings.Add($"Phone: {strs[4]}");
             }
         }
 

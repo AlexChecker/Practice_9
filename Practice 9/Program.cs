@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Practice_9.Classes;
 using Practice_9.Drawing;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Practice_9
 {
@@ -28,7 +30,7 @@ namespace Practice_9
         public static List<User> users = new List<User>();
         public static void Main(string[] args)
         {
-            User debugAdmin = new User("Alex",DateTime.Today, Role.ADMIN,"admin","admin");
+            User debugAdmin = new User("Alex",DateTime.Today, Role.ADMIN,"admin","admin",null,null);
             users.Add(debugAdmin);
             
             Console.Title = "Practice 9";
@@ -40,8 +42,18 @@ namespace Practice_9
             {
                 Console.WriteLine(us.login + " "+ us.password+" "+us.role.name);             
             }
+            string outer = JsonConvert.SerializeObject(users);
+            
+            File.WriteAllText("lol.json",outer);
+            
+            users.Clear();
+            users = JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("lol.json"));
+            foreach (User us in users)
+            {
+                Console.WriteLine(us.login + " "+ us.password+" "+us.role.name);             
+            }
 
-            Console.ReadKey(true);
+            Console.ReadKey();
         }
     }
 }
