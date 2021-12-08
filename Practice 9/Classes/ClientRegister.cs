@@ -87,7 +87,7 @@ namespace Practice_9.Classes
                                 
                                 Program.users.Add(new User(strs[0],DateTime.Today,Role.CLIENT,strs[1],strs[2],strs[3],strs[4]));
                                 string outer = JsonConvert.SerializeObject(Program.users);
-                                File.WriteAllText("lol.json",outer);
+                                File.WriteAllText("users.json",outer);
                                 end = true;      
                             }
 

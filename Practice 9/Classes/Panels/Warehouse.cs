@@ -11,7 +11,7 @@ namespace Practice_9.Classes.Panels
 
         public static void init(string filename)
         {
-            foreach (string item in File.ReadLines(filename))
+            foreach (string item in File.ReadLines(@$"itempools\{filename}"))
             {
                 //Формат: Имя|цена|кол-во|категория|дата
                 string[] positions = item.Split('|');

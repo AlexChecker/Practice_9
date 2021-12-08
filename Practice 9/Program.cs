@@ -37,6 +37,13 @@ namespace Practice_9
             Console.Title = "Practice 9";
             Console.OutputEncoding = Encoding.Unicode;
             ShowWindow(ThisConsole, MAXIMIZE);
+            
+            if (!File.Exists("users.json"))
+            {
+                ClientRegister.controls();
+            }
+
+            users = JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("users.json"));
             StartScreen.controls();
             //ClientRegister.controls();
             //win.clearBuffer();

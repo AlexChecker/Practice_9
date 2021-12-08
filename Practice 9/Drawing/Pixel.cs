@@ -24,6 +24,11 @@ namespace Practice_9.Drawing
         {
             this.c = c;
         }
+        public Pixel(char c,ConsoleColor col)
+        {
+            this.c = c;
+            fColor = col;
+        }
 
         public void delete()
         {

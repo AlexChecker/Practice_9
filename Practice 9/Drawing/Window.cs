@@ -64,14 +64,14 @@ namespace Practice_9.Drawing
             }
         }
 
-        public void drawString(Point origin, String text)
+        public void drawString(Point origin, String text, ConsoleColor foreground = ConsoleColor.White)
         {
             var y = 0;
             foreach (string line in text.Split('\n'))
             {
                 for (int i = 0; i < line.Length; i++)
                 {
-                    drawDot(origin + new Point(i, y), new Pixel(line[i]));
+                    drawDot(origin + new Point(i, y), new Pixel(line[i],foreground));
                 }
 
                 y++;
@@ -149,7 +149,7 @@ namespace Practice_9.Drawing
             FastDraw.draw((short)w, (short)h, rawBuffer);
         }
 
-        public FastDraw.CharInfo[] buildBuffer()
+        private FastDraw.CharInfo[] buildBuffer()
         {
             var buffer = new FastDraw.CharInfo[w * h];
             for (int i = 0; i < h; i++)

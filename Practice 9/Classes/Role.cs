@@ -2,7 +2,7 @@
 {
     public class Role
     {
-        private int ID;
+        public int ID;
         public string name;
 
         public static Role ADMIN = new(0);
