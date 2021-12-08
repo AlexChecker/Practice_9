@@ -44,7 +44,13 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Classes\ClientRegister.cs" />
+        <Compile Include="Classes\Login.cs" />
+        <Compile Include="Classes\Panels\Category.cs" />
+        <Compile Include="Classes\Panels\Item.cs" />
+        <Compile Include="Classes\Panels\OperatorPanel.cs" />
+        <Compile Include="Classes\Panels\Warehouse.cs" />
         <Compile Include="Classes\Role.cs" />
+        <Compile Include="Classes\StartScreen.cs" />
         <Compile Include="Classes\User.cs" />
         <Compile Include="Drawing\FastDraw.cs" />
         <Compile Include="Drawing\Pixel.cs" />

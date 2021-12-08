@@ -28,6 +28,7 @@ namespace Practice_9
         public static Window win = new Window(WIDTH,HEIGHT);
 
         public static List<User> users = new List<User>();
+        public static User currrentUser;
         public static void Main(string[] args)
         {
             User debugAdmin = new User("Alex",DateTime.Today, Role.ADMIN,"admin","admin",null,null);
@@ -36,24 +37,25 @@ namespace Practice_9
             Console.Title = "Practice 9";
             Console.OutputEncoding = Encoding.Unicode;
             ShowWindow(ThisConsole, MAXIMIZE);
-            ClientRegister.controls();
-            win.clearBuffer();
-            foreach (User us in users)
-            {
-                Console.WriteLine(us.login + " "+ us.password+" "+us.role.name);             
-            }
-            string outer = JsonConvert.SerializeObject(users);
-            
-            File.WriteAllText("lol.json",outer);
-            
-            users.Clear();
-            users = JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("lol.json"));
-            foreach (User us in users)
-            {
-                Console.WriteLine(us.login + " "+ us.password+" "+us.role.name);             
-            }
-
-            Console.ReadKey();
+            StartScreen.controls();
+            //ClientRegister.controls();
+            //win.clearBuffer();
+            //foreach (User us in users)
+            //{
+            //    Console.WriteLine(us.login + " "+ us.password+" "+us.role.name);             
+            //}
+            //string outer = JsonConvert.SerializeObject(users);
+            //
+            //File.WriteAllText("lol.json",outer);
+            //
+            //users.Clear();
+            //users = JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("lol.json"));
+            //foreach (User us in users)
+            //{
+            //    Console.WriteLine(us.login + " "+ us.password+" "+us.role.name);             
+            //}
+//
+            //Console.ReadKey();
         }
     }
 }
