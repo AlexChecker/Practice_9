@@ -31,6 +31,7 @@ namespace Practice_9
         public static User currrentUser;
         public static void Main(string[] args)
         {
+            
             User debugAdmin = new User("Alex",DateTime.Today, Role.ADMIN,"admin","admin",null,null);
             users.Add(debugAdmin);
             

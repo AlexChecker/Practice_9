@@ -9,7 +9,6 @@ namespace Practice_9.Classes.Panels
     public static class OperatorPanel
     {
         private static Window _window = Program.win;
-        private static User curUser = Program.currrentUser;
         private static int hilighted = 0;
 
         public static void main()
@@ -17,6 +16,25 @@ namespace Practice_9.Classes.Panels
             _window.clearBuffer();
             drawhead();
             drawWarehouse();
+        }
+        /// <summary>
+        /// Это параша для отрисовки хуйни с хоткеями
+        /// </summary>
+        /// <param name="warehouse">в складе или только добавляем в него?</param>
+        private static void hotkeys(bool warehouse)
+        {
+            
+            if (warehouse)
+            {
+                string[] hotkeys = {"A: Добавить товары","DEL: удалить товар","С: изменить кол-во","S: сохранить","ESC: выйти"};
+                int offset = Program.WIDTH / 5;
+                for (int i = 0; i < 5; i++)
+                {
+                    _window.drawString(new (i*offset,Program.HEIGHT-1),hotkeys[i],ConsoleColor.DarkGray,ConsoleColor.Cyan);
+                }
+            }
+            
+            _window.drawBuffer();
         }
 
         public static void drawhead()
@@ -26,7 +44,7 @@ namespace Practice_9.Classes.Panels
             {
                 _window.drawDot(new(i,1),'═');
             }
-            _window.drawString(new (Program.WIDTH/2-20,0),$"Оператор склада. Текущий пользователь: {curUser.Name}");
+            _window.drawString(new (Program.WIDTH/2-20,0),$"Оператор склада. Текущий пользователь: {Program.currrentUser.Name}");
             _window.drawBuffer();
         }
         public static void createItem()
@@ -78,8 +96,9 @@ namespace Practice_9.Classes.Panels
                 }
 
             }
+            _window.clearBuffer();
         }
-
+        //Параша для отрисовки того, что может быть в складе
         public static void drawItemPool()
         {
             if (Warehouse.ItempooList.Count == 0)
@@ -98,14 +117,14 @@ namespace Practice_9.Classes.Panels
                 {
                     _window.drawString(new(0, i + 3), Warehouse.ItempooList[i].name,ConsoleColor.Cyan);
                     _window.drawString(new(20, i + 3), Warehouse.ItempooList[i].price.ToString(),ConsoleColor.Cyan);
-                    _window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString(),ConsoleColor.Cyan);
+                    //_window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString(),ConsoleColor.Cyan);
                     _window.drawString(new(31, i + 3), Warehouse.ItempooList[i].category.name,ConsoleColor.Cyan);
                 }
                 else
                 {
                     _window.drawString(new(0, i + 3), Warehouse.ItempooList[i].name);
                     _window.drawString(new(20, i + 3), Warehouse.ItempooList[i].price.ToString());
-                    _window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString());
+                    //_window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString());
                     _window.drawString(new(31, i + 3), Warehouse.ItempooList[i].category.name);
                     
                 }
@@ -114,8 +133,9 @@ namespace Practice_9.Classes.Panels
             }
             while (!end)
             {
-                if (curUser == null)
-                    end = true;
+                if (Program.currrentUser == null)
+                    break;
+                drawhead();
                 var key = Console.ReadKey().Key;
                 _window.clearBuffer();
                 switch (key)
@@ -123,8 +143,12 @@ namespace Practice_9.Classes.Panels
                     case ConsoleKey.C:
                         createItem();
                         break;
+                    case ConsoleKey.S:
+                        Warehouse.save();
+                        break;
                     case ConsoleKey.Tab:
-                        curUser = null;
+                        Program.currrentUser = null;
+                        end = true;
                         break;
                     case ConsoleKey.Delete:
                         Warehouse.delItemfromPool(sel);
@@ -138,8 +162,9 @@ namespace Practice_9.Classes.Panels
                         else sel++;
                         break;
                     case ConsoleKey.Enter:
-                        _window.drawString(new (0,Program.HEIGHT-2),"Please, set amount of items to add:");
-                        Console.SetCursorPosition(0,Program.HEIGHT-1);
+                        _window.drawString(new (0,Program.HEIGHT-3),"Please, set amount of items to add:");
+                        _window.drawBuffer();
+                        Console.SetCursorPosition(0,Program.HEIGHT-2);
                         try
                         {
                             int a = Convert.ToInt32(Console.ReadLine());
@@ -160,23 +185,34 @@ namespace Practice_9.Classes.Panels
                 }
                 for (int i = 0; i < Warehouse.ItempooList.Count; i++)
                 {
-                    _window.drawString(new(0,i+3),Warehouse.ItempooList[i].name);
-                    _window.drawString(new (20,i+3),Warehouse.ItempooList[i].price.ToString());
-                    _window.drawString(new Point(26,i+3),Warehouse.ItempooList[i].count.ToString());
-                    _window.drawString(new (31,i+3),Warehouse.ItempooList[i].category.name);
+                    if (i == sel)
+                    {
+                        _window.drawString(new(0, i + 3), Warehouse.ItempooList[i].name,ConsoleColor.Cyan);
+                        _window.drawString(new(20, i + 3), Warehouse.ItempooList[i].price.ToString(),ConsoleColor.Cyan);
+                        //_window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString(),ConsoleColor.Cyan);
+                        _window.drawString(new(31, i + 3), Warehouse.ItempooList[i].category.name,ConsoleColor.Cyan);
+                    }
+                    else
+                    {
+                        _window.drawString(new(0, i + 3), Warehouse.ItempooList[i].name);
+                        _window.drawString(new(20, i + 3), Warehouse.ItempooList[i].price.ToString());
+                        //_window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString());
+                        _window.drawString(new(31, i + 3), Warehouse.ItempooList[i].category.name);
+                    
+                    }
                     
                 }
-                drawhead();
             }
         }
-
+        //Параша для отрисовки того что в складе
         public static void drawWarehouse()
         {
             int sel = 0;
-            while (curUser != null)
+            while (Program.currrentUser != null)
             {
                 _window.clearBuffer();
                 drawhead();
+                hotkeys(true);
                 if (Warehouse._items.Count != 0)
                 {
                     foreach (var item in Warehouse._items)
@@ -188,16 +224,28 @@ namespace Practice_9.Classes.Panels
                     }
                     for (int i = 0; i < Warehouse._items.Count; i++)
                     {
-                        _window.drawString(new(0, i + 3), Warehouse._items[i].name);
-                        _window.drawString(new(20, i + 3), Warehouse._items[i].price.ToString());
-                        _window.drawString(new Point(26, i + 3), Warehouse._items[i].count.ToString());
-                        _window.drawString(new(31, i + 3), Warehouse._items[i].category.name);
+                        if (i == sel)
+                        {
+                            _window.drawString(new(0, i + 3), Warehouse._items[i].name,ConsoleColor.DarkMagenta,ConsoleColor.DarkCyan);
+                            _window.drawString(new(20, i + 3), Warehouse._items[i].price.ToString());
+                            _window.drawString(new Point(30, i + 3), Warehouse._items[i].count.ToString());
+                            _window.drawString(new(40, i + 3), Warehouse._items[i].category.name);
+                        }
+                        else
+                        {
+                            _window.drawString(new(0, i + 3), Warehouse._items[i].name);
+                            _window.drawString(new(20, i + 3), Warehouse._items[i].price.ToString());
+                            _window.drawString(new Point(30, i + 3), Warehouse._items[i].count.ToString());
+                            _window.drawString(new(40, i + 3), Warehouse._items[i].category.name);
+                            
+                        }
                         _window.drawBuffer();
                     }
 
                     
                     var key = Console.ReadKey().Key;
                     _window.clearBuffer();
+                    hotkeys(true);
                     switch (key)
                     {
                         case ConsoleKey.UpArrow:
@@ -231,7 +279,7 @@ namespace Practice_9.Classes.Panels
                             Warehouse.save();
                             break;
                         case ConsoleKey.Escape:
-                            curUser = null;
+                            Program.currrentUser = null;
                             break;
                         default:
                             _window.drawString(new(0,Program.HEIGHT-1),"Unknown error",ConsoleColor.Red);
@@ -241,7 +289,10 @@ namespace Practice_9.Classes.Panels
                 }
                 else
                 {
-                    drawItemPool();
+                    if(File.Exists("itempools/warehouse.json"))
+                        Warehouse.loadWarehouse();
+                    else
+                        drawItemPool();
                 }
             }
         }

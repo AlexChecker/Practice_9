@@ -28,6 +28,7 @@ namespace Practice_9.Classes
 
         public static void controls()
         {
+            Console.CursorVisible = false;
             while (true) 
             {
                 draw();
