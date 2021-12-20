@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Practice_9.Classes.Panels
 {
@@ -11,50 +13,53 @@ namespace Practice_9.Classes.Panels
 
         public static void init(string filename)
         {
-            foreach (string item in File.ReadLines(@$"itempools\{filename}"))
-            {
-                //Формат: Имя|цена|кол-во|категория|дата
-                string[] positions = item.Split('|');
-                switch (Convert.ToInt32(positions[3]))
-                {
-                    case 0:
-                        ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.JACKETS,Convert.ToDateTime(positions[4])));
-                        break;
-                    case 1:
-                        ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.ACCESSOIRES,Convert.ToDateTime(positions[4])));
-                        break;
-                    case 2:
-                        ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.ACCESSORIES_FIT,Convert.ToDateTime(positions[4])));
-                        break;
-                    case 3:
-                        ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.BOOTS,Convert.ToDateTime(positions[4])));
-                        break;
-                    case 4:
-                        ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.SNEAKERS,Convert.ToDateTime(positions[4])));
-                        break;
-                    case 5:
-                        ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.HOODIES,Convert.ToDateTime(positions[4])));
-                        break;
-                    default:
-                        ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.OTHER,Convert.ToDateTime(positions[4])));
-                        break;
-                }
-            }
+            string itempool = File.ReadAllText(@$"itempools\{filename}");
+            ItempooList = JsonConvert.DeserializeObject<List<Item>>(itempool);
+            //foreach (string item in File.ReadLines(@$"itempools\{filename}"))
+            //{
+            //    //Формат: Имя|цена|кол-во|категория|дата
+            //    string[] positions = item.Split('|');
+            //    switch (Convert.ToInt32(positions[3]))
+            //    {
+            //        case 0:
+            //            ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.JACKETS));
+            //            break;
+            //        case 1:
+            //            ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.ACCESSOIRES));
+            //            break;
+            //        case 2:
+            //            ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.ACCESSORIES_FIT));
+            //            break;
+            //        case 3:
+            //            ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.BOOTS));
+            //            break;
+            //        case 4:
+            //            ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.SNEAKERS));
+            //            break;
+            //        case 5:
+            //            ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.HOODIES));
+            //            break;
+            //        default:
+            //            ItempooList.Add(new (positions[0],Convert.ToInt32(positions[1]), Convert.ToInt32(positions[2]),Category.OTHER));
+            //            break;
+            //    }
+            //}
         }
 
-        public static void newItem(string name,int price, int count, Category category, DateTime expdate)
+        public static void newItem(string name,int price, int count, Category category)
         {
-            ItempooList.Add(new (name,price,count,category,expdate));
+            ItempooList.Add(new (name,price,count,category));
         }
 
-        public static void newItem(string name, int price, int count, DateTime expdate)
+        public static void newItem(string name, int price, int count)
         {
-            ItempooList.Add(new (name,price,count,Category.OTHER,expdate));
+            ItempooList.Add(new (name,price,count,Category.OTHER));
         }
 
-        public static void addItem(int ID)
+        public static void addItem(int ID,int amount)
         {
             _items.Add(ItempooList[ID]);
+            _items.Last().count = amount;
         }
 
         public static void delItem(int ID)
@@ -77,30 +82,32 @@ namespace Practice_9.Classes.Panels
             ItempooList.Clear();
         }
 
-        public static void saveItemPool(string filename)
+        public static void saveItemPool()
         {
             List<string> tos = new List<string>();
-            foreach (Item item in ItempooList)
-            {
-                tos.Add($"{item.name}|{item.price}|{item.count}|{item.category.ID}|{item.exp_date.ToString("d")}");
-            }
-            File.WriteAllLines(filename,tos);
+            string itempool = JsonConvert.SerializeObject(tos);
+            //foreach (Item item in ItempooList)
+            //{
+            //    tos.Add($"{item.name}|{item.price}|{item.count}|{item.category.ID}|{item.exp_date.ToString("d")}");
+            //}
+            File.WriteAllText("itempools/itempool.json",itempool);
         }
 
-        public static void saveWarehouse(string filename)
+        public static void saveWarehouse()
         {
             List<string> tos = new List<string>();
-            foreach (Item item in _items)
-            {
-                tos.Add($"{item.name}|{item.price}|{item.count}|{item.category.ID}|{item.exp_date.ToString("d")}");
-            }
-            File.WriteAllLines(filename,tos);
+            string warehouse = JsonConvert.SerializeObject(tos);
+            //foreach (Item item in _items)
+            //{
+            //    tos.Add($"{item.name}|{item.price}|{item.count}|{item.category.ID}|{item.exp_date.ToString("d")}");
+            //}
+            File.WriteAllText("itempools/warehouse.json",warehouse);
         }
 
-        public static void save(string poolname,string warehousename)
+        public static void save()
         {
-            saveItemPool(poolname);
-            saveWarehouse(warehousename);
+            saveItemPool();
+            saveWarehouse();
         }
     }
 }

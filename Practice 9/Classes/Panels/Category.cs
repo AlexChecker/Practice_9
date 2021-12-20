@@ -2,7 +2,37 @@
 {
     public class Category
     {
-        public int ID;
+        public int ID
+        {
+            set
+            {
+                switch (value)
+                {
+                    case 0:
+                        name = "Jackets";
+                        break;
+                    case 1:
+                        name = "Accesoires";
+                        break;
+                    case 2:
+                        name = "Fitness accesoires";
+                        break;
+                    case 3:
+                        name = "Boots";
+                        break;
+                    case 4:
+                        name = "Sneakers";
+                        break;
+                    case 5:
+                        name = "Hoodies";
+                        break;
+                    default:
+                        name = "Other";
+                        break;
+                }
+            }
+        }
+
         public string name;
 
         public static Category JACKETS = new Category(0);
@@ -14,30 +44,31 @@
         public static Category OTHER = new Category(6);
         public Category(int ID)
         {
-            switch (ID)
-            {
-                case 0:
-                    name = "JACKETS";
-                    break;
-                case 1:
-                    name = "ACCESSORIES";
-                    break;
-                case 2:
-                    name = "FITNESS_ACCESSORIES";
-                    break;
-                case 3:
-                    name = "BOOTS";
-                    break;
-                case 4:
-                    name = "SNEAKERS";
-                    break;
-                case 5:
-                    name = "HOODIES";
-                    break;
-                default:
-                    name = "OTHER";
-                    break;
-            }
+            this.ID = ID;
+            //switch (ID)
+            //{
+            //    case 0:
+            //        name = "JACKETS";
+            //        break;
+            //    case 1:
+            //        name = "ACCESSORIES";
+            //        break;
+            //    case 2:
+            //        name = "FITNESS_ACCESSORIES";
+            //        break;
+            //    case 3:
+            //        name = "BOOTS";
+            //        break;
+            //    case 4:
+            //        name = "SNEAKERS";
+            //        break;
+            //    case 5:
+            //        name = "HOODIES";
+            //        break;
+            //    default:
+            //        name = "OTHER";
+            //        break;
+            //}
         }
     }
 }

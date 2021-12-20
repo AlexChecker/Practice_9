@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Practice_9.Classes.Panels
 {
@@ -8,22 +9,19 @@ namespace Practice_9.Classes.Panels
         public int price;
         public int count;
         public Category category;
-        public DateTime exp_date;
-        public bool Expired = false;
-        
 
-        public Item(string name, int price, int count, Category category,DateTime expDate)
+
+        public Item(string name, int price, int count, Category category)
         {
             this.name = name;
             this.price = price;
             this.count = count;
             this.category = category;
-            exp_date = expDate;
-            if (expDate < DateTime.Today)
-            {
-                Expired = true;
-            }
         }
 
+        public Item ICloneable(int countn = 1)
+        {
+            return new Item(name,price,countn,category);
+        }
     }
 }

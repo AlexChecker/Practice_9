@@ -6,131 +6,243 @@ using System.Linq;
 
 namespace Practice_9.Classes.Panels
 {
-    public class OperatorPanel
+    public static class OperatorPanel
     {
         private static Window _window = Program.win;
-        private User curUser = Program.currrentUser;
-        private int hilighted = 0;
+        private static User curUser = Program.currrentUser;
+        private static int hilighted = 0;
 
-        public void main()
+        public static void main()
         {
             _window.clearBuffer();
             drawhead();
             drawWarehouse();
         }
 
-        public void drawhead()
+        public static void drawhead()
         {
 
             for (int i=0;i<Console.WindowWidth;i++)
             {
                 _window.drawDot(new(i,1),'═');
             }
-            _window.drawString(new (Program.WIDTH/2-7,0),$"Оператор склада. Текущий пользователь: {curUser.Name}");
+            _window.drawString(new (Program.WIDTH/2-20,0),$"Оператор склада. Текущий пользователь: {curUser.Name}");
             _window.drawBuffer();
         }
-
-        public string parse(string way)
+        public static void createItem()
         {
-            return way.Split('\\').Last();
-        }
+            _window.clearBuffer();
+            _window.drawString(new (0,0),"Введите название товара: ");
+            _window.drawBuffer();
+            Console.SetCursorPosition(0,1);
+            string name = Console.ReadLine();
+            _window.clearBuffer();
+            _window.drawString(new (0,0),"Введите цену товара: ");
+            _window.drawBuffer();
+            Console.SetCursorPosition(0,1);
+            int price = Convert.ToInt32(Console.ReadLine());
+            List<string> categories = new List<string>();
+            categories.Add("Jackets");
+            categories.Add("Accessoires");
+            categories.Add("Fitness accessoires");
+            categories.Add("Boots");
+            categories.Add("Sneakers");
+            categories.Add("Hoodies");
+            categories.Add("Other");
 
-        public string loadItemPoolFromFile()
-        {
-            int selected = 0;
-            string result = "";
-            List<string> files = new List<string>();
-            foreach (string s in Directory.GetFiles("itempools"))
+            int sel = 0;
+            bool end = false;
+            while (!end)
             {
-                if (parse(s).Split('.').Last() == "list")
+                _window.clearBuffer();
+                for (int i = 0; i < categories.Count; i++)
                 {
-                    files.Add(parse(s));
-                }
-            }
-            bool sel = false;
-            while (!sel)
-            {
-                _window.drawString(new (0,2),"Пожалуйста, выберите файл с нужным пулом товаров:");
-                drawhead();
-                for (int i = 0; i < files.Count; i++)
-                {
-                    if (i == selected)
-                    {
-                        _window.drawString(new(0,i+4),$">> {files[i]}");
-                    }
-                    else
-                    {
-                        _window.drawString(new Point(3,i+4),files[i]);
-                    }
+                    if (i==sel) _window.drawString(new (0,i+2),$"[{categories[i]}]");
+                    else _window.drawString(new (0,i+2),$" {categories[i]}");
                 }
                 _window.drawBuffer();
-
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.UpArrow:
-                        if (selected == 0)
-                        {
-                            selected = files.Count -1;
-                        }
-                        else selected--;
+                        if (sel == 0) sel = categories.Count - 1;
+                        else sel--;
                         break;
                     case ConsoleKey.DownArrow:
-                        if (selected == files.Count - 1)
-                        {
-                            selected = 0;
-                        }
-                        else
-                        {
-                            selected++;
-                        }
+                        if (sel == categories.Count) sel = 0;
+                        else sel++;
                         break;
                     case ConsoleKey.Enter:
-                        result = files[selected];
-                        sel = true;
+                        Warehouse.newItem(name,price,1,new (sel));
+                        end = true;
                         break;
                 }
-                
-                _window.clearBuffer();
-            }
 
-            return result;
+            }
         }
 
-        public void drawItemPool()
+        public static void drawItemPool()
         {
-            if (Warehouse.ItempooList.Count ==0)
+            if (Warehouse.ItempooList.Count == 0)
             {
-                Warehouse.init(loadItemPoolFromFile());
+                if(File.Exists("itempools/itempool.json"))
+                    Warehouse.init("itempool.json");
+                else createItem();
             }
-
+            _window.clearBuffer();
+            drawhead();
+            bool end = false;
+            int sel = 0;
             for (int i = 0; i < Warehouse.ItempooList.Count; i++)
             {
-                if (Warehouse.ItempooList[i].Expired)
-                    _window.drawString(new(0,i+3),Warehouse.ItempooList[i].name,ConsoleColor.Red);
+                if (i == sel)
+                {
+                    _window.drawString(new(0, i + 3), Warehouse.ItempooList[i].name,ConsoleColor.Cyan);
+                    _window.drawString(new(20, i + 3), Warehouse.ItempooList[i].price.ToString(),ConsoleColor.Cyan);
+                    _window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString(),ConsoleColor.Cyan);
+                    _window.drawString(new(31, i + 3), Warehouse.ItempooList[i].category.name,ConsoleColor.Cyan);
+                }
                 else
-                    _window.drawString(new(0,i+3),Warehouse.ItempooList[i].name);
-                
-                _window.drawString(new (20,i+3),Warehouse.ItempooList[i].price.ToString());
-                _window.drawString(new Point(26,i+3),Warehouse.ItempooList[i].count.ToString());
-                _window.drawString(new (31,i+3),Warehouse.ItempooList[i].category.name);
+                {
+                    _window.drawString(new(0, i + 3), Warehouse.ItempooList[i].name);
+                    _window.drawString(new(20, i + 3), Warehouse.ItempooList[i].price.ToString());
+                    _window.drawString(new Point(26, i + 3), Warehouse.ItempooList[i].count.ToString());
+                    _window.drawString(new(31, i + 3), Warehouse.ItempooList[i].category.name);
+                    
+                }
+
                 _window.drawBuffer();
             }
-            Console.ReadKey();
+            while (!end)
+            {
+                if (curUser == null)
+                    end = true;
+                var key = Console.ReadKey().Key;
+                _window.clearBuffer();
+                switch (key)
+                {
+                    case ConsoleKey.C:
+                        createItem();
+                        break;
+                    case ConsoleKey.Tab:
+                        curUser = null;
+                        break;
+                    case ConsoleKey.Delete:
+                        Warehouse.delItemfromPool(sel);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (sel == 0) sel = Warehouse.ItempooList.Count - 1;
+                        else sel--;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (sel == Warehouse.ItempooList.Count - 1) sel = 0;
+                        else sel++;
+                        break;
+                    case ConsoleKey.Enter:
+                        _window.drawString(new (0,Program.HEIGHT-2),"Please, set amount of items to add:");
+                        Console.SetCursorPosition(0,Program.HEIGHT-1);
+                        try
+                        {
+                            int a = Convert.ToInt32(Console.ReadLine());
+                            Warehouse.addItem(sel,a);
+                        }
+                        catch (Exception e)
+                        {
+                            goto default;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        if (Warehouse._items.Count != 0) end = true;
+                        else _window.drawString(new Point(0,Program.HEIGHT-1),"There is no elements in warehouse, nothing to open",ConsoleColor.White,ConsoleColor.Red); 
+                        break;
+                    default:
+                        _window.drawString(new Point(0,Program.HEIGHT-1),"Something went wrong; are you fuzzing this program?",ConsoleColor.White,ConsoleColor.Red);
+                        break;
+                }
+                for (int i = 0; i < Warehouse.ItempooList.Count; i++)
+                {
+                    _window.drawString(new(0,i+3),Warehouse.ItempooList[i].name);
+                    _window.drawString(new (20,i+3),Warehouse.ItempooList[i].price.ToString());
+                    _window.drawString(new Point(26,i+3),Warehouse.ItempooList[i].count.ToString());
+                    _window.drawString(new (31,i+3),Warehouse.ItempooList[i].category.name);
+                    
+                }
+                drawhead();
+            }
         }
 
-        public void drawWarehouse()
+        public static void drawWarehouse()
         {
-            int namesize = 0;
-            if (Warehouse._items.Count != 0)
+            int sel = 0;
+            while (curUser != null)
             {
-                foreach (Item item in Warehouse._items)
+                _window.clearBuffer();
+                drawhead();
+                if (Warehouse._items.Count != 0)
                 {
-                    if (item.name.Length > namesize) namesize = item.name.Length;
+                    foreach (var item in Warehouse._items)
+                    {
+                        if (item.count <= 0)
+                        {
+                            Warehouse._items.Remove(item);
+                        }
+                    }
+                    for (int i = 0; i < Warehouse._items.Count; i++)
+                    {
+                        _window.drawString(new(0, i + 3), Warehouse._items[i].name);
+                        _window.drawString(new(20, i + 3), Warehouse._items[i].price.ToString());
+                        _window.drawString(new Point(26, i + 3), Warehouse._items[i].count.ToString());
+                        _window.drawString(new(31, i + 3), Warehouse._items[i].category.name);
+                        _window.drawBuffer();
+                    }
+
+                    
+                    var key = Console.ReadKey().Key;
+                    _window.clearBuffer();
+                    switch (key)
+                    {
+                        case ConsoleKey.UpArrow:
+                            if (sel == 0) sel = Warehouse._items.Count - 1;
+                            else sel--;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            if (sel == Warehouse._items.Count - 1) sel = 0;
+                            else sel++;
+                            break;
+                        case ConsoleKey.A:
+                            drawItemPool();
+                            break;
+                        case ConsoleKey.Delete:
+                            Warehouse.delItem(sel);
+                            break;
+                        case ConsoleKey.C:
+                            _window.drawString(new (0,Program.HEIGHT-2),"Please, enter new amount");
+                            Console.SetCursorPosition(0,Program.HEIGHT-1);
+                            try
+                            {
+                                int amount = Convert.ToInt32(Console.ReadLine());
+                                Warehouse._items[sel].count = amount;
+                            }
+                            catch (Exception e)
+                            {
+                                goto default;
+                            }
+                            break;
+                        case ConsoleKey.S:
+                            Warehouse.save();
+                            break;
+                        case ConsoleKey.Escape:
+                            curUser = null;
+                            break;
+                        default:
+                            _window.drawString(new(0,Program.HEIGHT-1),"Unknown error",ConsoleColor.Red);
+                            break;
+                    }
+
                 }
-            }
-            else
-            {
-                drawItemPool();
+                else
+                {
+                    drawItemPool();
+                }
             }
         }
     }

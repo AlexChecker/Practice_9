@@ -35,9 +35,16 @@ namespace Practice_9.Classes
                 {
                     switch (Program.currrentUser.role.ID)
                     {
+                        case 1:
+                            HR_ManagerPanel.main();
+                            break;
                         case 2:
-                            OperatorPanel panel = new OperatorPanel();
-                            panel.main();
+                            //OperatorPanel panel = new OperatorPanel();
+                            //panel.main();
+                            OperatorPanel.main();
+                            break;
+                        case 3:
+                            AccountantPanel.main();
                             break;
                     }
                 }
@@ -67,7 +74,7 @@ namespace Practice_9.Classes
             //_window.clearBuffer();
             //_window.drawString(new (0,0),$"You are logged as {Program.currrentUser.login} with mail {Program.currrentUser.email} and password {Program.currrentUser.password}");
             //_window.drawBuffer();
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

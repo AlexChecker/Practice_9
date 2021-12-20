@@ -64,14 +64,14 @@ namespace Practice_9.Drawing
             }
         }
 
-        public void drawString(Point origin, String text, ConsoleColor foreground = ConsoleColor.White)
+        public void drawString(Point origin, String text, ConsoleColor foreground = ConsoleColor.White,ConsoleColor background = ConsoleColor.Black)
         {
             var y = 0;
             foreach (string line in text.Split('\n'))
             {
                 for (int i = 0; i < line.Length; i++)
                 {
-                    drawDot(origin + new Point(i, y), new Pixel(line[i],foreground));
+                    drawDot(origin + new Point(i, y), new Pixel(line[i],foreground,background));
                 }
 
                 y++;

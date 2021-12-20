@@ -45,7 +45,10 @@
     <ItemGroup>
         <Compile Include="Classes\ClientRegister.cs" />
         <Compile Include="Classes\Login.cs" />
+        <Compile Include="Classes\Panels\AccountantPanel.cs" />
         <Compile Include="Classes\Panels\Category.cs" />
+        <Compile Include="Classes\Panels\ClientPanel.cs" />
+        <Compile Include="Classes\Panels\HR-ManagerPanel.cs" />
         <Compile Include="Classes\Panels\Item.cs" />
         <Compile Include="Classes\Panels\OperatorPanel.cs" />
         <Compile Include="Classes\Panels\Warehouse.cs" />

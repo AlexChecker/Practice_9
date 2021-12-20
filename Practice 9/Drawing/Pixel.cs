@@ -24,10 +24,11 @@ namespace Practice_9.Drawing
         {
             this.c = c;
         }
-        public Pixel(char c,ConsoleColor col)
+        public Pixel(char c,ConsoleColor fcol = ConsoleColor.White,ConsoleColor bcol = ConsoleColor.Black)
         {
             this.c = c;
-            fColor = col;
+            fColor = fcol;
+            bColor = bcol;
         }
 
         public void delete()

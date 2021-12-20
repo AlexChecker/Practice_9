@@ -59,9 +59,13 @@ namespace Practice_9.Classes
                             {
                                 Program.currrentUser = us;
                                 end = true;
+                                strings.Clear();
                             }
 
                         }
+                        break;
+                    case ConsoleKey.Escape:
+                        end = true;
                         break;
                     default:
                         char ch = ' ';

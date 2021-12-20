@@ -8,6 +8,7 @@ namespace Practice_9.Classes
         public Role role;
         public string Name;
         public DateTime Birthday;
+        public DateTime regDate;
         public int salary;
         public string login;
         public string password;
@@ -23,8 +24,7 @@ namespace Practice_9.Classes
             password = pass;
             this.email = email;
             this.phone = phone;
-        }  
-
-
+            regDate = DateTime.Today;
+        }
     }
 }
