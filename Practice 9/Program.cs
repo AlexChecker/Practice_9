@@ -33,7 +33,15 @@ namespace Practice_9
         {
             
             User debugAdmin = new User("Alex",DateTime.Today, Role.ADMIN,"admin","admin",null,null);
+            User debugOperator = new User("Alex",DateTime.Today, Role.OPERATOR,"op","op",null,null);
+            User debugHR = new User("Alex",DateTime.Today, Role.HR,"hr","hr",null,null);
+            User debugAccountant = new User("Alex",DateTime.Today, Role.ACCOUNTANT,"ac","ac",null,null);
+            User debugManager = new User("Alex",DateTime.Today, Role.MANAGER,"mn","mn",null,null);
             users.Add(debugAdmin);
+            users.Add(debugOperator);
+            users.Add(debugHR);
+            users.Add(debugAccountant);
+            users.Add(debugManager);
             
             Console.Title = "Practice 9";
             Console.OutputEncoding = Encoding.Unicode;

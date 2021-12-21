@@ -9,7 +9,6 @@ namespace Practice_9.Classes
         public string Name;
         public DateTime Birthday;
         public DateTime regDate;
-        public int salary;
         public string login;
         public string password;
         public string email;

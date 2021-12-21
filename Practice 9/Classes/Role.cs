@@ -4,17 +4,19 @@
     {
         public int ID;
         public string name;
+        public int salary;
 
-        public static Role ADMIN = new(0);
-        public static Role HR = new(1);
-        public static Role OPERATOR = new(2);
-        public static Role ACCOUNTANT = new(3);
-        public static Role MANAGER = new(4);
-        public static Role CLIENT = new(5);
+        public static Role ADMIN = new(0,100);
+        public static Role HR = new(1,100);
+        public static Role OPERATOR = new(2,100);
+        public static Role ACCOUNTANT = new(3,100);
+        public static Role MANAGER = new(4,100);
+        public static Role CLIENT = new(5,0);
         
 
-        public Role(int ID)
+        public Role(int ID,int salary)
         {
+            this.salary = salary;
             this.ID = ID;
             switch (ID)
             {

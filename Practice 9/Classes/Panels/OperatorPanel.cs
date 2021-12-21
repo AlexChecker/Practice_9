@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Practice_9.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace Practice_9.Classes.Panels
 {
@@ -54,11 +55,23 @@ namespace Practice_9.Classes.Panels
             _window.drawBuffer();
             Console.SetCursorPosition(0,1);
             string name = Console.ReadLine();
+            Price_go:
             _window.clearBuffer();
             _window.drawString(new (0,0),"Введите цену товара: ");
             _window.drawBuffer();
+            int price = 0;
             Console.SetCursorPosition(0,1);
-            int price = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                price = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                Console.Clear();
+                Console.WriteLine("Попробуйте снова");
+                Thread.Sleep(700);
+                goto Price_go;
+            }
             List<string> categories = new List<string>();
             categories.Add("Jackets");
             categories.Add("Accessoires");
