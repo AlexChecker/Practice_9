@@ -14,6 +14,7 @@ namespace Practice_9.Classes.Panels
 
         public static void main()
         {
+            if (!WorkerSetup.main()) return;
             _window.clearBuffer();
             drawhead();
             drawWarehouse();

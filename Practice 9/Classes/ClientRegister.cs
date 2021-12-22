@@ -57,19 +57,14 @@ namespace Practice_9.Classes
             _window.drawBuffer();
         }
 
-        public static void controls(bool worker = false, string password = "",string login = "")
+        public static void controls()
         {
             //bool mail = false;
             strings.Add($"Name: {strs[0]}");
             strings.Add($"Login: {strs[1]}");
-            if (worker)
-            {
-                strings.Add($"Password: {password}");    
-            }
-            else
-            {
+            
                 strings.Add($"Password: {mask}");
-            }
+            
             strings.Add($"Email: {strs[3]}");
             strings.Add($"Phone: +7 {strs[4]}");
             strings.Add($"Birthday: {strs[5]}");

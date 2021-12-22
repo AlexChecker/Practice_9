@@ -9,19 +9,26 @@ namespace Practice_9.Classes.Panels
     {
         private static Window _window = Program.win;
         private static Point origin = new(Program.WIDTH / 2, Program.HEIGHT / 2);
-        private static User curUser = Program.currrentUser;
         private static List<User> users = Program.users;
         static int sel = 0;
         private static string alfabeth = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
         private static string specsimb = @"!@#$%^&*()_+=\[{\]};:<>|./?,-";
-        private static int element_choosen;
+        private static int element_choosen=0;
         
         
         
         public static void main()
         {
+            if (!WorkerSetup.main()) return;
+            _window.clearBuffer();
             drawhead();
         }
+
+        private static void mainmenu()
+        {
+            
+        }
+
         public static void drawhead()
         {
 
@@ -29,63 +36,9 @@ namespace Practice_9.Classes.Panels
             {
                 _window.drawDot(new(i,1),'═');
             }
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    if (i == element_choosen)
-            //        _window.drawString(new Point(origin.x - 13, origin.y + i), ">> " + strings[i]);
-            //    else
-            //        _window.drawString(new Point(origin.x - 10, origin.y + i), strings[i]);
-            //}
-            _window.drawString(new (Program.WIDTH/2-20,0),$"HR-Менеджер. Текущий пользователь: {curUser.Name}");
+            _window.drawString(new (Program.WIDTH/2-20,0),$"HR-Менеджер. Текущий пользователь: {Program.currrentUser.Name}");
             _window.drawBuffer();
         }
-
-        public static void draw()
-        {
-            _window.clearBuffer();
-            for (int i = 0; i < 4; i++)
-            {
-                if (i == sel)
-                    _window.drawString(new Point(origin.x - 13, origin.y + i), ">> " + i);
-                //else
-                    //_window.drawString(new Point(origin.x - 10, origin.y + i));
-            }
-        }
-
-        public static void controls()
-        {
-            bool end = false;
-            var key = Console.ReadKey().Key;
-            
-            _window.clearBuffer();
-            while (!end)
-            {
-                switch (key)
-                {
-                    case ConsoleKey.Tab:
-                        curUser = null;
-                        break;
-                    case ConsoleKey.Delete:
-                        
-                        break;
-                    case ConsoleKey.UpArrow: 
-                        sel--;
-                        break;
-                    case ConsoleKey.DownArrow:
-                        sel++;
-                        break;
-                    case ConsoleKey.Enter:
-
-                        break;
-                    case ConsoleKey.Escape:
-                        break;
-                    default:
-                        _window.drawString(new Point(0,Program.HEIGHT-1),"Something went wrong; are you fuzzing this program?",ConsoleColor.White,ConsoleColor.Red);
-                        break;
-                }
-            }
-        }
-
         public static string loginGenerate()
         {
             Random rnd = new Random();
@@ -122,8 +75,7 @@ namespace Practice_9.Classes.Panels
             bool err = true;
             loginGenerate();
             passwordGenerate();
-            var FIO = Console.ReadLine();
-            var birthdate = Console.ReadLine();
+            //Program.users.Add(new User());
             //if (err)
             //{
             //    Program.users.Add(new User(strs[0], Convert.ToDateTime(strs[5]), Role.CLIENT, strs[1],

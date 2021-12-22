@@ -22,6 +22,11 @@ namespace Practice_9.Classes.Panels
 
         public static void main()
         {
+            if (!WorkerSetup.main())
+            {
+                Program.currrentUser = null;
+                return;
+            }
             _window.clearBuffer();
             controls();
         }

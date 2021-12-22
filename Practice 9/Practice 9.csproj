@@ -52,6 +52,7 @@
         <Compile Include="Classes\Panels\Item.cs" />
         <Compile Include="Classes\Panels\OperatorPanel.cs" />
         <Compile Include="Classes\Panels\Warehouse.cs" />
+        <Compile Include="Classes\Panels\WorkerSetup.cs" />
         <Compile Include="Classes\Role.cs" />
         <Compile Include="Classes\StartScreen.cs" />
         <Compile Include="Classes\User.cs" />
