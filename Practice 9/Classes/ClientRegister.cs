@@ -12,7 +12,7 @@ namespace Practice_9.Classes
         
 
         //середина экрана
-        private static Point origin = new(Program.WIDTH / 2, Program.HEIGHT / 2);
+        private static Point origin = new Point(Program.WIDTH / 2, Program.HEIGHT / 2);
 
         //окно для отрисовки
         private static Window _window = Program.win;
@@ -48,7 +48,7 @@ namespace Practice_9.Classes
                 else
                     _window.drawString(new Point(origin.x - 10, origin.y + i), strings[i]);
             }
-
+            
             _window.drawString(new Point(origin.x - 10, origin.y + strings.Count),
                 $"When all fields are filled correctly, press [ENTER]. If you want to log in, press Escape");
             if (err)
@@ -62,9 +62,7 @@ namespace Practice_9.Classes
             //bool mail = false;
             strings.Add($"Name: {strs[0]}");
             strings.Add($"Login: {strs[1]}");
-            
-                strings.Add($"Password: {mask}");
-            
+            strings.Add($"Password: {mask}");
             strings.Add($"Email: {strs[3]}");
             strings.Add($"Phone: +7 {strs[4]}");
             strings.Add($"Birthday: {strs[5]}");
@@ -184,7 +182,7 @@ namespace Practice_9.Classes
                     default:
                         char ch = ' ';
                         ch = key.KeyChar;
-                        Console.Write(ch);
+                        //Console.Write(ch);
 
 
                         //if (element_choosen == 4)

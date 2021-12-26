@@ -6,12 +6,12 @@
         public string name;
         public int salary;
 
-        public static Role ADMIN = new(0,100);
-        public static Role HR = new(1,100);
-        public static Role OPERATOR = new(2,100);
-        public static Role ACCOUNTANT = new(3,100);
-        public static Role MANAGER = new(4,100);
-        public static Role CLIENT = new(5,0);
+        public static Role ADMIN = new Role(0,100);
+        public static Role HR = new Role(1,100);
+        public static Role OPERATOR = new Role(2,100);
+        public static Role ACCOUNTANT = new Role(3,100);
+        public static Role MANAGER = new Role(4,100);
+        public static Role CLIENT = new Role(5,0);
         
 
         public Role(int ID,int salary)

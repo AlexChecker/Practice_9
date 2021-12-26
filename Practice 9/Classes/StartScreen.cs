@@ -6,7 +6,7 @@ namespace Practice_9.Classes
 {
     public static class StartScreen
     {
-        private static Point origin = new(Program.WIDTH / 2, Program.HEIGHT / 2);
+        private static Point origin = new Point(Program.WIDTH / 2, Program.HEIGHT / 2);
         private static string[] strs = {"Log in", "Register", "Exit"};
         private static int element_choosen = 0;
         private static Window _window = Program.win;
@@ -20,7 +20,7 @@ namespace Practice_9.Classes
                     _window.drawString(new Point(origin.x - 13, origin.y + i), "[" + strs[i] + "]");
                 else
                 {
-                    _window.drawString(new Point(origin.x - 13, origin.y + i), strs[i] );
+                    _window.drawString(new Point(origin.x - 13, origin.y + i), strs[i]);
                 }
             }
             _window.drawBuffer();

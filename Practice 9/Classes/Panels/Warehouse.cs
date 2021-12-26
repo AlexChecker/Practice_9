@@ -25,12 +25,12 @@ namespace Practice_9.Classes.Panels
 
         public static void newItem(string name,int price, int count, Category category)
         {
-            ItempooList.Add(new (name,price,count,category));
+            ItempooList.Add(new  Item(name,price,count,category));
         }
 
         public static void newItem(string name, int price, int count)
         {
-            ItempooList.Add(new (name,price,count,Category.OTHER));
+            ItempooList.Add(new  Item(name,price,count,Category.OTHER));
         }
 
         public static void addItem(int ID,int amount)
@@ -45,6 +45,10 @@ namespace Practice_9.Classes.Panels
         public static void delItem(int ID)
         {
             _items.RemoveAt(ID);
+        }
+        public static void delItem(Item item)
+        {
+            _items.Remove(item);
         }
 
         public static void delItemfromPool(int ID)

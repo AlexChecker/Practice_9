@@ -17,10 +17,10 @@ namespace Practice_9.Classes.Panels
         private static List<Item> cart = new List<Item>();
         private static void drawhead()
         {
-            win.drawString(new (Program.WIDTH/2-15,0),$"Текущий пользователь: {client.Name}");
+            win.drawString(new Point(Program.WIDTH/2-15,0),$"Текущий пользователь: {client.Name}");
             for (int i = 0; i < Program.WIDTH; i++)
             {
-                win.drawString(new (i,1),"═");
+                win.drawString(new Point(i,1),"═");
             }
             win.drawBuffer();
         }
@@ -44,8 +44,8 @@ namespace Practice_9.Classes.Panels
             {
                 for (int i = 0; i < categories.Count; i++)
                 {
-                    if(i==sel) win.drawString(new (0,i+3),$"[{categories[i].name}]");
-                    else win.drawString(new (0,i+3),$"  {categories[i].name} ");
+                    if(i==sel) win.drawString(new Point(0,i+3),$"[{categories[i].name}]");
+                    else win.drawString(new Point(0,i+3),$"  {categories[i].name} ");
                 }
 
                 var key = Console.ReadKey().Key;
@@ -126,7 +126,7 @@ namespace Practice_9.Classes.Panels
                 drawhead();
                 if (category == null)
                 {
-                    win.drawString(new (0,3),"Do you want to select products?");
+                    win.drawString(new Point(0,3),"Do you want to select products?");
                     var key = Console.ReadKey();
                     if (key.KeyChar == 'y')
                     {

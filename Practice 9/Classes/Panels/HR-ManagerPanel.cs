@@ -8,7 +8,7 @@ namespace Practice_9.Classes.Panels
     public class HR_ManagerPanel
     {
         private static Window _window = Program.win;
-        private static Point origin = new(Program.WIDTH / 2, Program.HEIGHT / 2);
+        private static Point origin = new Point(Program.WIDTH / 2, Program.HEIGHT / 2);
         private static List<User> users = Program.users;
         static int sel = 0;
         private static string alfabeth = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
@@ -24,9 +24,37 @@ namespace Practice_9.Classes.Panels
             drawhead();
         }
 
-        private static void mainmenu()
+        public static void menus(List<string> menu,int sel)
         {
             
+        }
+
+        private static void mainmenu()
+        {
+            bool end = false;
+            int sel = 0;
+            while (!end)
+            {
+                _window.clearBuffer();
+                drawhead();
+                var key = Console.ReadKey();
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (sel == 0) sel = users.Count;
+                        break;
+                    case ConsoleKey.DownArrow:
+
+                        break;
+                    case ConsoleKey.Enter:
+
+                        break;
+                    case ConsoleKey.Escape:
+
+                        break;
+                }
+            }
+
         }
 
         public static void drawhead()
@@ -34,9 +62,9 @@ namespace Practice_9.Classes.Panels
 
             for (int i=0;i<Console.WindowWidth;i++)
             {
-                _window.drawDot(new(i,1),'═');
+                _window.drawDot(new Point(i,1),'═');
             }
-            _window.drawString(new (Program.WIDTH/2-20,0),$"HR-Менеджер. Текущий пользователь: {Program.currrentUser.Name}");
+            _window.drawString(new Point(Program.WIDTH/2-20,0),$"HR-Менеджер. Текущий пользователь: {Program.currrentUser.Name}");
             _window.drawBuffer();
         }
         public static string loginGenerate()

@@ -10,7 +10,7 @@ namespace Practice_9.Classes.Panels
 
     public class AccountantPanel
     {
-        private static Point origin = new(Program.WIDTH / 2, Program.HEIGHT / 2);
+        private static Point origin = new Point(Program.WIDTH / 2, Program.HEIGHT / 2);
         private static Window _window = Program.win;
         private static List<string> strings = new List<string>();
         private static List<string> workerStrings = new List<string>();
@@ -62,8 +62,7 @@ namespace Practice_9.Classes.Panels
                         _window.drawBuffer();
                     }
                     _window.drawBuffer();
-                    
-                //}
+                    //}
                 drawGetSalary = false;
                 defaultdraw = true;
             }
@@ -73,7 +72,7 @@ namespace Practice_9.Classes.Panels
             strings.Add($"Доходы сотрудников");
             strings.Add($"Доходы за покупки");
             strings.Add($"Общий бюджет");
-            strings.Add("Установить зарплату");
+            strings.Add($"Установить зарплату");
             begin:
             Draw();
             bool end = false;
@@ -110,6 +109,10 @@ namespace Practice_9.Classes.Panels
                         {
                             
                         }
+                        //  if ()
+                        {
+                            
+                        }
                         break;
                     case ConsoleKey.Escape:
                         end = true;
@@ -130,8 +133,10 @@ namespace Practice_9.Classes.Panels
             {
                 foreach (var a in Program.users)
                 {
-                    if(a.role.ID<5)
-                    workerStrings.Add(a.login);
+                    if (a.role.ID < 5)
+                    {
+                        workerStrings.Add(a.login);
+                    }
                 }
             }
             drawGetSalary = true;

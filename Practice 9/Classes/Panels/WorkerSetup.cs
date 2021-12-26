@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Practice_9.Drawing;
+using Newtonsoft.Json;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Practice_9.Classes.Panels
 {
@@ -13,6 +16,7 @@ namespace Practice_9.Classes.Panels
         private static bool noAbort = true;
         static string name = "";
         static string date = "";
+        private static bool err = false;
 
         /// <summary>
         /// Завершение регистрации пользователя.
@@ -35,16 +39,37 @@ namespace Practice_9.Classes.Panels
             controls();
             return noAbort;
         }
+        private static void draw()
+        {
+            _window.clearBuffer();
+            head();
+            if (pointer == 0)
+            {
+                _window.drawString(new  Point(Program.WIDTH/2,Program.HEIGHT/2),$">> {menu[0]}{name}");
+                
+                _window.drawString(new  Point(Program.WIDTH/2,Program.HEIGHT/2-1),$"   {menu[1]}{date}");
+            }
+            else
+            {
+                _window.drawString(new  Point(Program.WIDTH/2,Program.HEIGHT/2),$"   {menu[0]}{name}");
+                
+                _window.drawString(new  Point(Program.WIDTH/2,Program.HEIGHT/2-1),$">> {menu[1]}{date}");
+            }
 
-
+            if (err)
+            {
+                _window.drawString(new(Program.WIDTH / 2 + 3, Program.HEIGHT / 2 + 1), $"Ошибочка вышла)");
+            }
+            _window.drawBuffer();
+        }
 
         private static void head()
         {
-            for (int i=0;i<Console.WindowWidth;i++)
+            for (int i = 0; i < Console.WindowWidth; i++)
             {
-                _window.drawDot(new(i,1),'═');
+                _window.drawDot(new Point(i,1),'═');
             }
-            _window.drawString(new (Program.WIDTH/2-20,0),$"Завершение регистрации сотрудника под логином {worker.login}");
+            _window.drawString(new  Point(Program.WIDTH/2-20,0),$"Завершение регистрации сотрудника под логином {worker.login}");
             _window.drawBuffer();
         }
 
@@ -73,29 +98,43 @@ namespace Practice_9.Classes.Panels
                         try
                         {
                             if (DateTime.Today > Convert.ToDateTime(date))
+                            {
                                 end = true;
+                            }
+
                             worker.Birthday = Convert.ToDateTime(date);
                             worker.Name = name;
+                            string outer = JsonConvert.SerializeObject(Program.users);
+                            File.WriteAllText("users.json", outer);
                         }
-                        catch (Exception e)
+                        catch
                         {
-                            //Here it goes! Nothing.
+                            err = true;
                         }
                         break;
+                    
                     case ConsoleKey.Backspace:
-                        if (pointer == 0) name = name.Remove(name.Length - 1);
-                        else date = date.Remove(date.Length - 1);
+                        try
+                        {
+                            if (pointer == 0) name = name.Remove(name.Length - 1);
+                            else date = date.Remove(date.Length - 1);
+                        }
+                        catch (Exception)
+                        {
+                            //ignored
+                        }
+
                         break;
                     default:
                         char ch = key.KeyChar;
                         if (pointer == 0) name += ch;
                         else
                         {
-                            if (date.Length == 3 || date.Length == 7)
+                            if (date.Length == 2 || date.Length == 5)
                             {
                                 date += "/" + ch;
                             }
-                            else
+                            else if (date.Length < 10)
                                 date += ch;
                         }
                         break;
@@ -104,23 +143,6 @@ namespace Practice_9.Classes.Panels
             }
         }
 
-        private static void draw()
-        {
-            _window.clearBuffer();
-            head();
-            if (pointer == 0)
-            {
-                _window.drawString(new (Program.WIDTH/2,Program.HEIGHT/2),$">> {menu[0]}{name}");
-                
-                _window.drawString(new (Program.WIDTH/2,Program.HEIGHT/2),$"   {menu[1]}{date}");
-            }
-            else
-            {
-                _window.drawString(new (Program.WIDTH/2,Program.HEIGHT/2),$"   {menu[0]}{name}");
-                
-                _window.drawString(new (Program.WIDTH/2,Program.HEIGHT/2),$">> {menu[1]}{date}");
-            }
-            _window.drawBuffer();
-        }
+        
     }
 }

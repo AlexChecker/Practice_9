@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Practice_9.Drawing;
 
 namespace Practice_9.Classes
 {
     public static class Login
     {
-        private static Point origin = new (Program.WIDTH/2,Program.HEIGHT/2);
+        private static Point origin = new Point(Program.WIDTH/2,Program.HEIGHT/2);
         private static Window _window= Program.win;
         private static int element_choosen = 0;
         private static string[] strs = new string[2] {"",""};
@@ -25,6 +26,13 @@ namespace Practice_9.Classes
             _window.drawBuffer();
         }
 
+        public static void clear()
+        {
+            strings.Clear();
+            strs[0] = "";
+            strs[1] = "";
+            element_choosen = 0;
+        }
         public static void controls()
         {
             strings.Add($"Login: {strs[0]}");
@@ -62,6 +70,11 @@ namespace Practice_9.Classes
                                 strings.Clear();
                             }
 
+                            if (strs[0] != us.login || strs[1] != us.password)
+                            {
+                                _window.drawString(new Point(origin.x - 10, origin.y + strings.Count + 1), $"Введите коректные данные");
+                                _window.drawBuffer();
+                            }
                         }
                         break;
                     case ConsoleKey.Escape:
@@ -69,25 +82,18 @@ namespace Practice_9.Classes
                         break;
                     default:
                         char ch = ' ';
-                        try
-                        {
-                            ch = key.KeyChar;
-                            Console.Write(ch);
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
-
+                        ch = key.KeyChar;
+                        Console.Write(ch);
                         strs[element_choosen] += ch;
+                        
                         break;
-                    
                 }
-
+                
                 strings.Clear();
                 strings.Add($"Login: {strs[0]}");
                 strings.Add($"Password: {strs[1]}");
             }
+            clear();
         }
     }
 }
