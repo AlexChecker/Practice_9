@@ -5,30 +5,25 @@ using Practice_9.Drawing;
 namespace Practice_9.Classes.Panels
 {
     /// <summary>
-    /// Панель клиента 
+    ///     Панель клиента
     /// </summary>
-    ///
-    ///
-    /// 
     public static class ClientPanel
     {
-        private static Window win = Program.win;
-        private static User client = Program.currrentUser;
-        private static List<Item> cart = new List<Item>();
+        private static readonly Window win = Program.win;
+        private static readonly User client = Program.currrentUser;
+        private static readonly List<Item> cart = new();
+
         private static void drawhead()
         {
-            win.drawString(new Point(Program.WIDTH/2-15,0),$"Текущий пользователь: {client.Name}");
-            for (int i = 0; i < Program.WIDTH; i++)
-            {
-                win.drawString(new Point(i,1),"═");
-            }
+            win.drawString(new Point(Program.WIDTH / 2 - 15, 0), $"Текущий пользователь: {client.Name}");
+            for (var i = 0; i < Program.WIDTH; i++) win.drawString(new Point(i, 1), "═");
             win.drawBuffer();
         }
-        
+
         private static Category catSelector()
         {
             //Category result = new Category(6);
-            List <Category> categories= new List<Category>();
+            var categories = new List<Category>();
             categories.Add(Category.JACKETS);
             categories.Add(Category.ACCESSOIRES);
             categories.Add(Category.ACCESSORIES_FIT);
@@ -36,17 +31,15 @@ namespace Practice_9.Classes.Panels
             categories.Add(Category.SNEAKERS);
             categories.Add(Category.HOODIES);
             categories.Add(Category.OTHER);
-            bool end = false;
-            int sel = 0;
+            var end = false;
+            var sel = 0;
             win.clearBuffer();
             drawhead();
             while (!end)
             {
-                for (int i = 0; i < categories.Count; i++)
-                {
-                    if(i==sel) win.drawString(new Point(0,i+3),$"[{categories[i].name}]");
-                    else win.drawString(new Point(0,i+3),$"  {categories[i].name} ");
-                }
+                for (var i = 0; i < categories.Count; i++)
+                    if (i == sel) win.drawString(new Point(0, i + 3), $"[{categories[i].name}]");
+                    else win.drawString(new Point(0, i + 3), $"  {categories[i].name} ");
 
                 var key = Console.ReadKey().Key;
                 win.clearBuffer();
@@ -61,33 +54,31 @@ namespace Practice_9.Classes.Panels
                         else sel++;
                         break;
                     case ConsoleKey.Enter:
-                        
+
                         return categories[sel];
                         break;
-                }    
+                }
             }
-            return Category.OTHER; 
+
+            return Category.OTHER;
         }
 
-        private static void drawItems(int sel,List<Item> list)
+        private static void drawItems(int sel, List<Item> list)
         {
-            
         }
 
         private static void controls(List<Item> categorized)
         {
-            bool end = false;
-            int sel = 0;
+            var end = false;
+            var sel = 0;
             while (!end)
             {
-                foreach (Item item in categorized)
-                {
+                foreach (var item in categorized)
                     if (item.count <= 0)
                     {
                         categorized.Remove(item);
                         Warehouse._items.Remove(item);
                     }
-                }
 
                 var key = Console.ReadKey().Key;
                 win.clearBuffer();
@@ -104,44 +95,39 @@ namespace Practice_9.Classes.Panels
                         break;
                     case ConsoleKey.Enter:
                         //fkdfkdshfjkhdsjkfhjkdshfjkhdskjfhjkdshfjk
-                        
-                        
+
+
                         cart.Add(categorized[sel]);
                         break;
                     case ConsoleKey.Escape:
                         end = true;
                         break;
-                    
                 }
             }
         }
 
         public static void main()
         {
-            bool end = false;
-            Category category = catSelector();
-            List<Item> categorized = new List<Item>();
+            var end = false;
+            var category = catSelector();
+            var categorized = new List<Item>();
             while (!end)
             {
                 drawhead();
                 if (category == null)
                 {
-                    win.drawString(new Point(0,3),"Do you want to select products?");
+                    win.drawString(new Point(0, 3), "Do you want to select products?");
                     var key = Console.ReadKey();
                     if (key.KeyChar == 'y')
                     {
                         categorized.Clear();
                         category = catSelector();
                     }
-                    else
-                    {
-                        
-                    }
                 }
-                foreach (Item item in Warehouse._items)
-                {
-                    if (item.category == category) categorized.Add(item);
-                }
+
+                foreach (var item in Warehouse._items)
+                    if (item.category == category)
+                        categorized.Add(item);
                 controls(categorized);
             }
         }

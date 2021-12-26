@@ -5,16 +5,17 @@ namespace Practice_9.Classes
 {
     public class User
     {
-        public Role role;
-        public string Name;
         public DateTime Birthday;
-        public DateTime regDate;
-        public string login;
-        public string password;
         public string email;
+        public string login;
+        public string Name;
+        public string password;
         public string phone;
+        public DateTime regDate;
+        public Role role;
+
         [JsonConstructor]
-        public User(string name, DateTime birthday,Role role,string login,string pass,string email,string phone)
+        public User(string name, DateTime birthday, Role role, string login, string pass, string email, string phone)
         {
             Name = name;
             Birthday = birthday;
